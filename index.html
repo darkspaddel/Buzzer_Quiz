@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8">
+  <title>Quiz Show – Buzzer & Punkte (PietSmiet-Style)</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      margin: 0;
+      padding: 0;
+      background: #1e1e1e;
+      color: #fff;
+    }
+    header {
+      background: #111;
+      padding: 20px;
+      text-align: center;
+      font-size: 2em;
+      border-bottom: 4px solid #444;
+    }
+    .players {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+      gap: 20px;
+      padding: 20px;
+    }
+    .player {
+      background: #2a2a2a;
+      padding: 20px;
+      border-radius: 15px;
+      text-align: center;
+      box-shadow: 0 0 10px rgba(0,0,0,0.5);
+    }
+    .player h2, .player input[type="text"] {
+      font-size: 1.2em;
+      margin-bottom: 10px;
+    }
+    .buzzer {
+      background: #d32f2f;
+      color: white;
+      font-size: 1.2em;
+      padding: 10px 20px;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      margin-bottom: 10px;
+    }
+    .buzzer:hover {
+      background: #c62828;
+    }
+    .points {
+      font-size: 1.8em;
+      margin-bottom: 10px;
+    }
+    .controls button {
+      background: #4caf50;
+      border: none;
+      color: white;
+      padding: 8px 12px;
+      font-size: 1em;
+      border-radius: 5px;
+      margin: 0 4px;
+      cursor: pointer;
+    }
+    .controls button:hover {
+      background: #43a047;
+    }
+    input[type="text"] {
+      padding: 6px;
+      border-radius: 5px;
+      border: none;
+      margin-bottom: 10px;
+      text-align: center;
+    }
+  </style>
+</head>
+<body>
+  <header>🎤 Quiz Show – Buzzer & Punkte</header>
+  <div class="players" id="players"></div>
+
+  <script>
+    const numPlayers = 10;
+    const playersContainer = document.getElementById("players");
+    const players = [];
+
+    for (let i = 1; i <= numPlayers; i++) {
+      const player = {
+        id: i,
+        name: `Spieler ${i}`,
+        points: 0
+      };
+
+      const playerDiv = document.createElement("div");
+      playerDiv.className = "player";
+      playerDiv.innerHTML = `
+        <input type="text" placeholder="Name eingeben" id="name-input-${i}" oninput="updateName(${i}, this.value)">
+        <button class="buzzer" onclick="buzz(${i})">🔔 Buzz!</button>
+        <div class="points" id="points-${i}">${player.points} Punkte</div>
+        <div class="controls">
+          <button onclick="changePoints(${i}, 1)">+1</button>
+          <button onclick="changePoints(${i}, -1)">-1</button>
+        </div>
+      `;
+
+      playersContainer.appendChild(playerDiv);
+      players.push(player);
+    }
+
+    function buzz(id) {
+      alert(`🎉 ${players[id - 1].name} hat gebuzzert!`);
+    }
+
+    function changePoints(id, delta) {
+      const player = players.find(p => p.id === id);
+      if (!player) return;
+      player.points += delta;
+      document.getElementById(`points-${id}`).innerText = `${player.points} Punkte`;
+    }
+
+    function updateName(id, newName) {
+      const player = players.find(p => p.id === id);
+      if (!player) return;
+      player.name = newName || `Spieler ${id}`;
+    }
+  </script>
+</body>
+</html>
