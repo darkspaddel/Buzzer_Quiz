@@ -94,7 +94,6 @@
       playerDiv.className = "player";
       playerDiv.innerHTML = `
         <input type="text" placeholder="Name eingeben" id="name-input-${i}" oninput="updateName(${i}, this.value)">
-        <button class="buzzer" onclick="buzz(${i})">🔔 Buzz!</button>
         <div class="points" id="points-${i}">${player.points} Punkte</div>
         <div class="controls">
           <button onclick="changePoints(${i}, 1)">+1</button>
